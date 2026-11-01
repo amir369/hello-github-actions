@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Techlog Training · Approved aviation training, found on the map</title>
+<meta name="description" content="Choose a country on the map and see the approved aviation training organisations there: Part-147 maintenance, CAMO and ARC, lease transition and OIL, pilot and cabin crew.">
+<script>document.documentElement.classList.add('js')</script>
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+
+<!-- Drawings used across the page. They stand in for photographs until real ones are added. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <!-- An airliner seen head-on: the one motif the page returns to. -->
+    <symbol id="airliner" viewBox="0 0 1000 360">
+      <path d="M494 150 L500 22 L506 150 Z"/>
+      <path d="M482 156 L372 146 L372 140 L482 146 Z M518 156 L628 146 L628 140 L518 146 Z"/>
+      <path d="M446 214 L84 176 L84 166 L446 196 Z M554 214 L916 176 L916 166 L554 196 Z"/>
+      <rect x="80" y="134" width="7" height="40"/><rect x="913" y="134" width="7" height="40"/>
+      <circle cx="500" cy="196" r="62"/>
+      <rect x="318" y="198" width="14" height="22"/><rect x="668" y="198" width="14" height="22"/>
+      <circle cx="325" cy="246" r="38"/><circle cx="675" cy="246" r="38"/>
+      <rect x="497" y="250" width="6" height="64"/><rect x="487" y="308" width="26" height="22" rx="6"/>
+      <rect x="437" y="236" width="8" height="74"/><rect x="420" y="304" width="42" height="28" rx="7"/>
+      <rect x="555" y="236" width="8" height="74"/><rect x="538" y="304" width="42" height="28" rx="7"/>
+    </symbol>
+    <symbol id="airliner-face" viewBox="0 0 1000 360">
+      <path d="M462 176 Q500 160 538 176 L534 186 Q500 174 466 186 Z"/>
+      <circle cx="325" cy="246" r="27"/><circle cx="675" cy="246" r="27"/>
+    </symbol>
+    <!-- The plane that flies across the map, seen from above, nose to the right. -->
+    <symbol id="plane-top" viewBox="-24 -24 48 48">
+      <path d="M22 0 Q22 -2.4 18 -2.6 L6 -3 L-4 -20 L-8.5 -20 L-3 -3 L-14 -3.4 L-18 -9 L-21 -9 L-18.5 0 L-21 9 L-18 9 L-14 3.4 L-3 3 L-8.5 20 L-4 20 L6 3 L18 2.6 Q22 2.4 22 0 Z"/>
+    </symbol>
+  </defs>
+</svg>
+
+<header class="bar wrap">
+  <a class="wordmark" href="#top">Techlog <span>Training</span></a>
+  <nav aria-label="Main">
+    <a class="link" href="#map">Map</a>
+    <a class="link" href="#training">Training</a>
+    <a class="link" href="#how">How it works</a>
+    <a class="link" href="#faq">Questions</a>
+  </nav>
+  <a class="button button-small" href="#list">List your school</a>
+</header>
+
+<main id="top">
+
+  <!-- 1. Hero: a boarding pass over a dim hangar -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-room" aria-hidden="true">
+      <svg class="hangar" viewBox="0 0 1600 1000" preserveAspectRatio="xMaxYMid slice">
+        <rect width="1600" height="1000" fill="#2c1411"/>
+        <rect x="170" y="150" width="1260" height="640" fill="#d79a46"/>
+        <rect class="sky-band" x="170" y="520" width="1260" height="70" fill="#c9843a"/>
+        <rect x="170" y="590" width="1260" height="200" fill="#8f4f2c"/>
+        <g class="cloud cloud-a" fill="#e4b46a"><rect x="300" y="250" width="240" height="26" rx="13"/><rect x="350" y="228" width="140" height="26" rx="13"/></g>
+        <g class="cloud cloud-b" fill="#e4b46a"><rect x="1000" y="320" width="300" height="24" rx="12"/><rect x="1060" y="300" width="170" height="24" rx="12"/></g>
+        <path d="M0 0 H1600 V150 H0 Z" fill="#3a1915"/>
+        <path d="M120 150 H1480 V182 H120 Z" fill="#24100e"/>
+        <path d="M120 150 H170 V790 H120 Z M1430 150 H1480 V790 H1430 Z" fill="#24100e"/>
+        <path d="M0 790 H1600 V1000 H0 Z" fill="#1f0e0c"/>
+        <path d="M0 790 H1600 V808 H0 Z" fill="#3a1915"/>
+        <g class="hangar-plane">
+          <use href="#airliner" x="660" y="372" width="900" height="324" fill="#1f0e0c"/>
+          <use href="#airliner-face" x="660" y="372" width="900" height="324" fill="#4d221b"/>
+        </g>
+        <path d="M1000 808 L1240 808 L1560 1000 L760 1000 Z" fill="#2a1310"/>
+      </svg>
+    </div>
+
+    <div class="pass" data-pass>
+      <div class="pass-main">
+        <h1 id="hero-title" class="pass-title"><span>Approved</span> <span>aviation</span> <span>training</span></h1>
+        <dl class="pass-fields">
+          <div><dt>From</dt><dd>Wherever you are</dd></div>
+          <div class="pass-to">
+            <dt><label for="hero-country">To</label></dt>
+            <dd>
+              <form class="to-form" action="#map" data-hero-form>
+                <select id="hero-country" name="country" class="to-select" data-country-select>
+                  <option value="">Choose a country</option>
+                </select>
+                <button class="button" type="submit">Fly there</button>
+              </form>
+            </dd>
+          </div>
+          <div><dt>Class</dt><dd>Part-147 · CAMO and ARC · Lease transition · ATO</dd></div>
+          <div><dt>Gate</dt><dd><span data-count-orgs>33</span> schools in <span data-count-countries>13</span> countries</dd></div>
+        </dl>
+        <p class="pass-line">Choose a country and a plane flies there with every approved training organisation in it.</p>
+      </div>
+      <div class="pass-stub" aria-hidden="true">
+        <p class="stub-flight">TL 147</p>
+        <dl class="stub-facts">
+          <div><dt>Route</dt><dd><span data-stub-from>VIE</span> to <span data-stub-to>any</span></dd></div>
+          <div><dt>Seat</dt><dd>Yours</dd></div>
+          <div><dt>Boarding</dt><dd>Open now</dd></div>
+        </dl>
+        <svg class="barcode" viewBox="0 0 120 40" preserveAspectRatio="none"><g fill="currentColor"><rect x="0" width="4" height="40"/><rect x="7" width="2" height="40"/><rect x="12" width="6" height="40"/><rect x="21" width="2" height="40"/><rect x="26" width="3" height="40"/><rect x="33" width="7" height="40"/><rect x="43" width="2" height="40"/><rect x="48" width="4" height="40"/><rect x="55" width="2" height="40"/><rect x="60" width="6" height="40"/><rect x="69" width="3" height="40"/><rect x="75" width="2" height="40"/><rect x="80" width="7" height="40"/><rect x="90" width="2" height="40"/><rect x="95" width="4" height="40"/><rect x="102" width="2" height="40"/><rect x="107" width="6" height="40"/><rect x="116" width="4" height="40"/></g></svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. The live thing: the map, the plane and the schools -->
+  <section id="map" class="map-section wrap" aria-labelledby="map-title">
+    <div class="map-head">
+      <h2 id="map-title" class="head" data-reveal>Choose a destination</h2>
+      <p class="lead" data-reveal style="--d:1">Tap a highlighted country. The plane leaves from Vienna and lands on the schools listed there.</p>
+    </div>
+
+    <div class="map-stage" data-reveal style="--d:2">
+      <svg class="world" data-world viewBox="0 0 1000 500" role="group" aria-label="World map. Highlighted countries have training organisations listed.">
+        <g data-countries></g>
+        <path class="flight-trail" data-trail d=""/>
+        <g class="home" data-home><circle r="4"/></g>
+        <g class="plane" data-plane><use href="#plane-top" x="-11" y="-11" width="22" height="22"/></g>
+      </svg>
+      <p class="map-hint" data-map-hint aria-live="polite">Vienna, ready for departure.</p>
+    </div>
+
+    <div class="destinations" data-reveal style="--d:3">
+      <h3 class="destinations-title">Countries with listings</h3>
+      <ul class="destination-list" data-destinations></ul>
+    </div>
+
+    <div class="results" id="results" data-results aria-live="polite" tabindex="-1">
+      <div class="results-head">
+        <h3 class="results-title head" data-results-title>Where would you like to train?</h3>
+        <div class="kind-filter" role="group" aria-label="Filter by kind of training" data-filter hidden>
+          <button type="button" aria-pressed="true" data-kind="all">All</button>
+          <button type="button" aria-pressed="false" data-kind="p147">Part-147</button>
+          <button type="button" aria-pressed="false" data-kind="camo">CAMO and ARC</button>
+          <button type="button" aria-pressed="false" data-kind="lease">Lease transition</button>
+          <button type="button" aria-pressed="false" data-kind="ato">ATO</button>
+        </div>
+      </div>
+      <div class="deck" data-deck>
+        <p class="deck-empty">Pick a country above and its schools land here, one approval certificate each.</p>
+      </div>
+      <p class="results-foot"><span data-results-count>No country chosen yet.</span> <a class="link-plain" href="#list">Missing a school? Tell us.</a></p>
+      <noscript><p class="results-foot">The map needs JavaScript. Write to <a class="link-plain" href="mailto:hello@techlog-training.example">hello@techlog-training.example</a> and we will send the list for your country.</p></noscript>
+    </div>
+  </section>
+
+  <!-- 3. Four kinds of training, as sheets stacking like folders in a drawer -->
+  <section id="training" class="training" aria-labelledby="training-title">
+    <h2 id="training-title" class="head wrap training-title" data-reveal>Four kinds of training</h2>
+
+    <article class="sheet sheet-1" data-reveal>
+      <h3 class="sheet-name">Part-147 maintenance</h3>
+      <div class="sheet-body">
+        <p>Basic modules and type courses for B1 and B2 licences, from organisations holding a Part-147 approval. Each listing shows its approval reference, the aircraft types it teaches and the language of instruction.</p>
+        <p class="sheet-meta">A320 · A330 · A350 · B737 · B787 · ATR · ERJ</p>
+      </div>
+      <figure class="sheet-art" aria-hidden="true">
+        <svg viewBox="0 0 600 520" class="engine">
+          <rect width="600" height="520" fill="#d2c3b1"/>
+          <circle cx="300" cy="260" r="215" fill="#6e1018"/>
+          <circle cx="300" cy="260" r="184" fill="#2c1411"/>
+          <g class="fan" fill="#cdb59c">
+            <path id="blade" d="M300 260 L292 86 Q300 78 316 88 Z"/>
+            <use href="#blade" transform="rotate(20 300 260)"/><use href="#blade" transform="rotate(40 300 260)"/><use href="#blade" transform="rotate(60 300 260)"/><use href="#blade" transform="rotate(80 300 260)"/><use href="#blade" transform="rotate(100 300 260)"/><use href="#blade" transform="rotate(120 300 260)"/><use href="#blade" transform="rotate(140 300 260)"/><use href="#blade" transform="rotate(160 300 260)"/><use href="#blade" transform="rotate(180 300 260)"/><use href="#blade" transform="rotate(200 300 260)"/><use href="#blade" transform="rotate(220 300 260)"/><use href="#blade" transform="rotate(240 300 260)"/><use href="#blade" transform="rotate(260 300 260)"/><use href="#blade" transform="rotate(280 300 260)"/><use href="#blade" transform="rotate(300 300 260)"/><use href="#blade" transform="rotate(320 300 260)"/><use href="#blade" transform="rotate(340 300 260)"/>
+          </g>
+          <circle cx="300" cy="260" r="46" fill="#ece4da"/>
+          <path d="M300 226 Q322 252 300 260 Q280 268 300 294" fill="none" stroke="#6e1018" stroke-width="6"/>
+        </svg>
+      </figure>
+    </article>
+
+    <article class="sheet sheet-2" data-reveal>
+      <h3 class="sheet-name">CAMO, Part-M and ARC</h3>
+      <div class="sheet-body">
+        <p>Courses for continuing airworthiness staff: nominated persons, airworthiness review staff, planners and records teams. Part-CAMO and Part-ML compliance, AMP development, AD and SB tracking.</p>
+        <p class="sheet-meta">Part-CAMO · Part-ML · Airworthiness review · Reliability</p>
+      </div>
+      <figure class="sheet-art" aria-hidden="true">
+        <svg viewBox="0 0 600 520">
+          <rect width="600" height="520" fill="#561017"/>
+          <rect x="132" y="70" width="350" height="420" fill="#cdb59c" transform="rotate(-5 300 280)"/>
+          <g class="doc">
+            <rect x="120" y="54" width="360" height="430" fill="#f1e8de"/>
+            <text x="150" y="104" class="doc-head">Airworthiness Review</text>
+            <text x="150" y="134" class="doc-head">Certificate</text>
+            <text x="150" y="172" class="doc-small">EASA Form 15b</text>
+            <text x="150" y="226" class="doc-label">Nationality and registration</text>
+            <text x="150" y="252" class="doc-value">OE-LXA</text>
+            <text x="150" y="296" class="doc-label">Aircraft type</text>
+            <text x="150" y="322" class="doc-value">Airbus A320-214</text>
+            <text x="150" y="366" class="doc-label">Valid until</text>
+            <text x="150" y="392" class="doc-value">One year from issue</text>
+            <circle cx="400" cy="420" r="44" fill="none" stroke="#6e1018" stroke-width="5"/>
+            <text x="400" y="414" text-anchor="middle" class="doc-stamp">ARC</text>
+            <text x="400" y="438" text-anchor="middle" class="doc-stamp-s">reviewed</text>
+          </g>
+        </svg>
+      </figure>
+    </article>
+
+    <article class="sheet sheet-3" data-reveal>
+      <h3 class="sheet-name">Lease transition and OIL</h3>
+      <div class="sheet-body">
+        <p>Delivery and redelivery, mid-lease and pre-purchase inspections, records audits back to birth. Learn to run an Open Item List that both lessor and lessee sign off, item by item, until the aircraft changes hands.</p>
+        <p class="sheet-meta">Return conditions · LLP back-to-birth · Records digitisation · OIL</p>
+      </div>
+      <figure class="sheet-art" aria-hidden="true">
+        <svg viewBox="0 0 600 520">
+          <rect width="600" height="520" fill="#e3cfb3"/>
+          <g fill="#3a1714">
+            <path d="M300 40 Q318 40 320 80 L322 210 L540 300 L540 326 L322 280 L320 400 L380 440 L380 458 L300 446 L220 458 L220 440 L280 400 L278 280 L60 326 L60 300 L278 210 L280 80 Q282 40 300 40 Z"/>
+            <rect x="196" y="262" width="22" height="46" rx="8"/><rect x="382" y="262" width="22" height="46" rx="8"/>
+          </g>
+          <g class="oil-marks">
+            <circle class="oil" cx="207" cy="285" r="15"/><text x="40" y="384" class="oil-text">Engine 1 borescope</text>
+            <circle class="oil" cx="300" cy="150" r="15"/><text x="330" y="140" class="oil-text">Cabin, row 12</text>
+            <circle class="oil" cx="470" cy="300" r="15"/><text x="404" y="204" class="oil-text">Right wing tip</text>
+            <circle class="oil oil-closed" cx="300" cy="420" r="15"/><text x="330" y="500" class="oil-text">Records: LLP sheet, closed</text>
+          </g>
+        </svg>
+      </figure>
+    </article>
+
+    <article class="sheet sheet-4" data-reveal>
+      <h3 class="sheet-name">Pilot and cabin crew</h3>
+      <div class="sheet-body">
+        <p>Approved training organisations (ATOs) for licences, type ratings and cabin crew attestation. Integrated and modular ATPL, MCC, UPRT, business-jet type ratings and recurrent safety training.</p>
+        <p class="sheet-meta">ATPL · Type rating · MCC/JOC · Cabin crew attestation</p>
+      </div>
+      <figure class="sheet-art" aria-hidden="true">
+        <svg viewBox="0 0 600 520">
+          <rect width="600" height="520" fill="#24100e"/>
+          <circle cx="300" cy="260" r="200" fill="#4d221b"/>
+          <clipPath id="ai-clip"><circle cx="300" cy="260" r="176"/></clipPath>
+          <g clip-path="url(#ai-clip)">
+            <g class="horizon">
+              <rect x="40" y="0" width="520" height="270" fill="#d79a46"/>
+              <rect x="40" y="270" width="520" height="290" fill="#6e1018"/>
+              <rect x="250" y="222" width="100" height="6" fill="#24100e"/><rect x="270" y="196" width="60" height="6" fill="#24100e"/>
+              <rect x="250" y="312" width="100" height="6" fill="#f1e8de"/><rect x="270" y="338" width="60" height="6" fill="#f1e8de"/>
+            </g>
+          </g>
+          <path d="M170 262 H262 L280 286 L300 262 L320 286 L338 262 H430 V274 H344 L320 304 L300 280 L280 304 L256 274 H170 Z" fill="#f1e8de"/>
+          <circle cx="300" cy="266" r="7" fill="#f1e8de"/>
+        </svg>
+      </figure>
+    </article>
+  </section>
+
+  <!-- 4. How it works: printed as an itinerary -->
+  <section id="how" class="how wrap" aria-labelledby="how-title">
+    <div class="how-copy">
+      <h2 id="how-title" class="head" data-reveal>From map to classroom</h2>
+      <p data-reveal style="--d:1">No account, no booking fee and no middleman between you and the school. You find the organisation, check its approval, and write to it directly.</p>
+    </div>
+    <div class="slip" data-reveal style="--d:2">
+      <h3 class="slip-group">Departure</h3>
+      <p class="slip-row"><span>Choose a country on the map</span><span class="dots"></span><span>1 tap</span></p>
+      <p class="slip-row"><span>Filter by kind of training</span><span class="dots"></span><span>4 kinds</span></p>
+      <h3 class="slip-group">En route</h3>
+      <p class="slip-row"><span>Check the approval reference</span><span class="dots"></span><span>each one</span></p>
+      <p class="slip-row"><span>Compare courses and language</span><span class="dots"></span><span>side by side</span></p>
+      <h3 class="slip-group">Arrival</h3>
+      <p class="slip-row"><span>Send your enquiry</span><span class="dots"></span><span>direct</span></p>
+      <p class="slip-row slip-total"><span>You hold a direct line to an approved school</span><span>about 2 minutes</span></p>
+    </div>
+  </section>
+
+  <!-- 5. Founder's letter -->
+  <section class="about wrap" aria-labelledby="about-title">
+    <article class="letter" data-reveal>
+      <h2 id="about-title" class="sr-only">Why this directory exists</h2>
+      <p>For eighteen years I have worked on the airworthiness side of aviation: CAMO management, airworthiness reviews, and standing on hangar floors for lessors while an aircraft changed hands.</p>
+      <p>Before that I taught Part-M, Part-145 and avionics courses for six years. The question I heard most from students, and later from operators, was never about the regulation. It was simpler: <mark>where can I take this course, from someone approved to teach it?</mark></p>
+      <p>The answer was scattered across authority registers, PDFs and word of mouth, country by country. So this directory puts it on one map, with the approval reference beside every name.</p>
+      <p>It is part of a larger platform I am building for lessors, lessees, operators and CAMOs, with an Open Item List for deliveries and redeliveries at its centre. Training comes first, because every good transition starts with people who know what they are looking at.</p>
+      <p class="sign">The founder of Techlog</p>
+      <p class="sign-role">Airworthiness engineer · CAMO nominated person · ARC staff</p>
+      <a class="letter-strip" href="mailto:hello@techlog-training.example">hello@techlog-training.example</a>
+    </article>
+  </section>
+
+  <!-- 6. Questions, answered as reading text -->
+  <section id="faq" class="faq wrap" aria-labelledby="faq-title">
+    <h2 id="faq-title" class="faq-title" data-reveal>Questions, answered</h2>
+    <div class="faq-text" data-reveal style="--d:1">
+      <p><strong>Who is this for?</strong> Engineers and mechanics looking for licence or type courses, CAMO and records staff, lessor and lessee technical teams, pilots and cabin crew, and the managers who send them on training.</p>
+      <p><strong>Are the organisations really approved?</strong> Each listing shows the approval reference the organisation gave us, so you can check it on the authority's own register before you enrol. Providers that teach without an approval, such as lease transition seminars, are marked as training providers.</p>
+      <p><strong>What does the approval reference mean?</strong> It is the number on the organisation's certificate: the country code, the regulation and a serial, for example AT.147.0031 for a Part-147 school in Austria.</p>
+      <p><strong>Does it cost anything to search?</strong> No. Searching the map and writing to a school is free, and you deal with the school directly.</p>
+      <p><strong>Why does the plane leave from Vienna?</strong> That is where the platform is based. The route is only for fun; courses are open to students from anywhere the school accepts.</p>
+      <p><strong>A country I need is not highlighted.</strong> It means no organisation there is listed yet. Tell us which one you are looking for and we will look for schools there first.</p>
+      <p><strong>Can my organisation be listed?</strong> Yes. Send your approval certificate, the courses you run and the languages you teach in, and we add you after checking the reference.</p>
+      <p><strong>Are online courses included?</strong> Yes. Every listing says whether it teaches in the classroom, online, in a simulator or on site.</p>
+      <p><strong>What is the Open Item List?</strong> The running list of findings that lessor and lessee agree to close before an aircraft is delivered or returned. The lease transition courses here teach how to build and close one.</p>
+      <p><strong>Is this an authority website?</strong> No. Techlog is an independent platform. The authorities' registers remain the official source.</p>
+    </div>
+  </section>
+
+  <!-- 7. The reply card -->
+  <section id="list" class="cta" aria-labelledby="cta-title">
+    <div class="cta-inner wrap">
+      <p class="cta-copy">Run an approved school? Put it on the map where students and operators are already looking.</p>
+      <div class="reply-card">
+        <h2 id="cta-title">List your organisation</h2>
+        <p>Send your approval reference, your courses and your languages. We check the reference and add you to the map.</p>
+        <a class="button button-bar" href="mailto:hello@techlog-training.example?subject=Listing%20request%20for%20Techlog%20Training&amp;body=Organisation%20name%3A%0AApproval%20reference%3A%0ACountry%20and%20city%3A%0ACourses%3A%0ALanguages%3A%0AClassroom%20%2F%20online%20%2F%20simulator%3A">Send your listing request</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- 8. The back of the boarding pass -->
+<footer class="footer">
+  <div class="postcard">
+    <div class="postcard-message">
+      <h2 class="postcard-title">Blue skies, and good training.</h2>
+      <p>Techlog Training is the first part of the Techlog platform for lessors, lessees, operators and CAMOs. The Open Item List for aircraft deliveries and redeliveries is coming next.</p>
+    </div>
+    <div class="postcard-address">
+      <svg class="stamp" viewBox="0 0 90 120" aria-hidden="true"><rect width="90" height="120" fill="#d79a46"/><use href="#airliner" x="5" y="40" width="80" height="34" fill="#6e1018"/></svg>
+      <ul class="address">
+        <li><a class="link" href="mailto:hello@techlog-training.example">hello@techlog-training.example</a></li>
+        <li><a class="link" href="#map">Search the map</a></li>
+        <li><a class="link" href="#training">Kinds of training</a></li>
+        <li><a class="link" href="#list">List your school</a></li>
+      </ul>
+    </div>
+    <p class="imprint">© 2026 Techlog. Map data from Natural Earth, public domain. Listings shown are samples until launch.</p>
+  </div>
+</footer>
+
+<script src="js/map-data.js"></script>
+<script src="js/orgs.js"></script>
+<script src="js/site.js"></script>
+</body>
+</html>

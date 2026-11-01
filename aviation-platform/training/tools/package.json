@@ -1,0 +1,14 @@
+{
+  "name": "techlog-training-tools",
+  "private": true,
+  "type": "module",
+  "description": "Build helpers for the Training landing page (map generation). Not needed to view the page.",
+  "scripts": { "build-map": "node build-map.mjs" },
+  "devDependencies": {
+    "d3-geo": "3.1.1",
+    "topojson-client": "3.1.0",
+    "world-atlas": "2.0.2",
+    "@fontsource/young-serif": "5.1.0",
+    "@fontsource/source-serif-4": "5.1.0"
+  }
+}
